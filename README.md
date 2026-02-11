@@ -1,4 +1,4 @@
-# 🚀 AI Field Mapper - Attractive Demo Setup
+# 🚀 AI Field Mapper
 
 ## Overview
 An intelligent Excel to Database field mapping system with a beautiful interactive demo page!
