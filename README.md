@@ -39,7 +39,7 @@ A FastAPI backend service that:
 ```
 project/
 │
-├── backend.py
+├── main.py
 ├── .env
 ├── requirements.txt
 └── README.md
@@ -102,7 +102,7 @@ pip install fastapi uvicorn pandas sqlalchemy pymysql python-dotenv requests ope
 ## ▶️ Running the Application
 
 ```
-uvicorn backend:app --reload
+uvicorn main:app --reload
 ```
 
 Application will run at:
