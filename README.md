@@ -239,7 +239,7 @@ df.to_sql(table_name, engine, if_exists='append', index=False)
 ## 📊 Database Result
 
 <p align="center">
-  <img src="images/mysql_result.png" width="800">
+  <img src="mysql_result.png" width="800">
 </p>
 
 ---
