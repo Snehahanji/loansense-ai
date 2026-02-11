@@ -1,0 +1,4 @@
+.env
+database.py
+venv
+_pycache_
