@@ -1,203 +1,264 @@
-# 🚀 AI Field Mapper
+# 📊 LLM-Based Excel to Database Field Mapper API
 
-## Overview
-An intelligent Excel to Database field mapping system with a beautiful interactive demo page!
+A FastAPI backend service that:
 
-## 🎨 New Features
+- 📂 Uploads Excel files  
+- 🤖 Uses an external LLM API to automatically map Excel columns to database fields  
+- 🗄️ Inserts mapped data into a MySQL database (optional)  
+- 🔄 Dynamically creates tables if they don’t exist  
 
-### 1. **Attractive Demo Page** (`/`)
-- Interactive visualization of the mapping process
-- Live workflow demonstration
-- Performance metrics dashboard
-- Feature showcase
-- Tech stack display
-- Smooth animations and modern design
+---
 
-### 2. **Updated API with Demo Route**
-- Root endpoint (`/`) now serves the beautiful demo page
-- All previous functionality preserved
-- New `/api-info` endpoint for API details
+## 🚀 Features
 
-## 📁 Files
+- Upload Excel file via API
+- Automatically detect Excel column names
+- Fetch actual database table fields
+- Call external LLM API for intelligent column mapping
+- Rename columns dynamically
+- Optional database insertion
+- Health check endpoint
+- Auto table creation
+
+---
+
+## 🛠️ Tech Stack
+
+- FastAPI  
+- Pandas  
+- MySQL  
+- SQLAlchemy  
+- Requests  
+- Python-dotenv  
+- External LLM API  
+
+---
+
+## 📁 Project Structure
 
 ```
-├── main_updated.py        # Updated FastAPI app with demo route
-├── demo_page.html         # Attractive demo page
-├── .env                   # Environment variables
-└── README.md             # This file
+project/
+│
+├── backend.py
+├── .env
+├── requirements.txt
+└── README.md
 ```
 
-## 🚀 Setup Instructions
+---
 
-### 1. Replace your main.py
+## ⚙️ Environment Variables
 
-```bash
-# Backup your old main.py
-mv main.py main_old.py
+Create a `.env` file in the root directory:
 
-# Use the new version
-mv main_updated.py main.py
+```
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=your_database_name
 
-# Make sure demo_page.html is in the same directory
+API_URL=https://your-llm-api-url
+DVARA_TOKEN=your_api_token
 ```
 
-### 2. Restart the server
+---
 
-```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+## 📦 Installation
+
+### 1️⃣ Clone the repository
+
+```
+git clone <your-repo-url>
+cd <project-folder>
 ```
 
-### 3. Access the Demo
+### 2️⃣ Create virtual environment
 
-Open your browser and go to:
-- **Demo Page**: http://localhost:8000/
-- **API Docs**: http://localhost:8000/docs
-- **API Info**: http://localhost:8000/api-info
-- **Health Check**: http://localhost:8000/health
-
-## 🎯 Available Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Beautiful interactive demo page |
-| `/upload/` | POST | Upload Excel file for mapping |
-| `/health` | GET | System health check |
-| `/api-info` | GET | API information and features |
-| `/docs` | GET | Swagger API documentation |
-
-## 🎨 Demo Page Features
-
-### Visual Elements:
-- ✨ Animated workflow steps
-- 🎯 Live field mapping visualization  
-- 📊 Performance metrics cards
-- 🔄 Rotating AI brain icon
-- 💫 Smooth scroll animations
-- 📱 Fully responsive design
-
-### Sections:
-1. **How It Works** - 5-step workflow visualization
-2. **Live Mapping Example** - Real-time field matching demo
-3. **API Response Example** - Syntax-highlighted JSON
-4. **Performance Metrics** - Speed, accuracy, scalability stats
-5. **Key Features** - 6 feature cards with icons
-6. **Tech Stack** - Technologies used
-7. **Call-to-Action** - Buttons to API docs and upload
-
-## 🎬 Demo Page Screenshot
-
-The page includes:
-- Purple gradient background
-- White content cards with shadows
-- Animated workflow icons
-- Side-by-side column comparison
-- Rotating AI brain icon
-- Hover effects on all interactive elements
-- Professional color scheme (Purple/Blue theme)
-
-## 🔧 Customization
-
-### Change Colors
-Edit `demo_page.html` and modify:
-```css
-/* Main gradient */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-/* Change to your colors */
-background: linear-gradient(135deg, #YOUR_COLOR1 0%, #YOUR_COLOR2 100%);
+```
+python -m venv venv
 ```
 
-### Update Content
-Modify text in `demo_page.html`:
-- Company name
-- Feature descriptions
-- Stats and metrics
-- Tech stack badges
+Activate virtual environment:
 
-## 📊 Usage Example
-
-### For Presentations:
-
-1. Open http://localhost:8000/ 
-2. Full-screen your browser (F11)
-3. Walk through each section:
-   - Explain the workflow
-   - Show the live mapping example
-   - Display the metrics
-   - Highlight key features
-
-### For Testing:
-
-1. Click "Try It Now" button
-2. Goes to `/docs`
-3. Test the `/upload/` endpoint
-4. Upload your Excel file
-5. See real-time results
-
-## 🌐 Deploy to Production
-
-### Option 1: Make it public accessible
-
-```bash
-# Install gunicorn
-pip install gunicorn
-
-# Run on public IP
-gunicorn main:app --workers 4 --bind 0.0.0.0:8000
+**Windows:**
+```
+venv\Scripts\activate
 ```
 
-### Option 2: Behind nginx
+**Mac/Linux:**
+```
+source venv/bin/activate
+```
 
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
+### 3️⃣ Install dependencies
 
-    location / {
-        proxy_pass http://localhost:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
+```
+pip install fastapi uvicorn pandas sqlalchemy pymysql python-dotenv requests openpyxl
+```
+
+---
+
+## ▶️ Running the Application
+
+```
+uvicorn backend:app --reload
+```
+
+Application will run at:
+
+```
+http://127.0.0.1:8000
+```
+
+Swagger Documentation:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 📚 API Endpoints
+
+### 🏠 Root Endpoint
+
+```
+GET /
+```
+
+Returns API status and available endpoints.
+
+---
+
+### 📤 Upload Excel File
+
+```
+POST /upload/
+```
+
+### Query Parameters:
+
+| Parameter     | Type    | Default      | Description |
+|--------------|---------|-------------|-------------|
+| table_name   | string  | llm_mapping | Target database table |
+| insert_to_db | boolean | false       | Whether to insert into database |
+
+### Example:
+
+```
+POST /upload/?table_name=customers&insert_to_db=true
+```
+
+Upload the Excel file using Swagger UI.
+
+---
+
+### ❤️ Health Check
+
+```
+GET /health
+```
+
+Checks:
+
+- Database connectivity  
+- Token availability  
+
+---
+
+## 🔄 How It Works
+
+### Step 1 – Upload Excel
+Pandas reads the file:
+
+```
+df = pd.read_excel(file.file)
+```
+
+### Step 2 – Get Database Fields
+Table is created if it doesn't exist.
+
+```
+DESCRIBE table_name;
+```
+
+### Step 3 – Call LLM API
+Excel columns and DB fields are sent as form-data:
+
+```
+{
+  "excel_columns": ["Name", "Email", "Phone"],
+  "database_fields": ["customer_id", "full_name", "email_address", "mobile_number"]
 }
 ```
 
-## 🎯 Tips for Presentation
+### Step 4 – Receive Mapping
 
-1. **Start with the demo page** - More impressive than API docs
-2. **Show live upload** - Use `/docs` to upload real Excel file
-3. **Highlight the AI brain** - Explain LLM mapping intelligence
-4. **Show the response** - Demonstrate JSON output
-5. **Mention metrics** - 2s processing, 98% accuracy
+Example response from LLM:
 
-## 🐛 Troubleshooting
+```
+{
+  "Name": "full_name",
+  "Email": "email_address",
+  "Phone": "mobile_number"
+}
+```
 
-### Demo page not loading?
-- Make sure `demo_page.html` is in the same directory as `main.py`
-- Check file permissions: `chmod 644 demo_page.html`
+### Step 5 – Rename Columns
 
-### Styles not working?
-- Clear browser cache (Ctrl+Shift+R)
-- Check browser console for errors
+```
+df.rename(columns=mapping, inplace=True)
+```
 
-### API still works?
-- Yes! All previous endpoints are preserved
-- Only the root `/` now shows the demo instead of JSON
+### Step 6 – Optional Insert to Database
 
-## 📝 Notes
+```
+df.to_sql(table_name, engine, if_exists='append', index=False)
+```
 
-- The demo page is completely static HTML/CSS/JS
-- No external dependencies required
-- Works in all modern browsers
-- Mobile-responsive design
-- Animations work on all devices
+---
 
-## 🎉 Result
+## 📊 Example API Response
 
-You now have a production-ready, beautiful demo that:
-- ✅ Impresses stakeholders
-- ✅ Explains the system visually
-- ✅ Provides interactive experience
-- ✅ Maintains all API functionality
-- ✅ Professional and modern design
+```
+{
+  "status": "success",
+  "original_columns": ["Name", "Email", "Phone"],
+  "database_fields": ["customer_id", "full_name", "email_address", "mobile_number"],
+  "mapping": {
+    "Name": "full_name",
+    "Email": "email_address",
+    "Phone": "mobile_number"
+  },
+  "renamed_columns": ["full_name", "email_address", "mobile_number"],
+  "total_rows": 50,
+  "rows_inserted": 50
+}
+```
 
-Perfect for presentations, client demos, and internal showcases! 🚀
+---
+
+## 🛡️ Error Handling
+
+- 403 → Token expired  
+- 500 → LLM API failure  
+- 500 → Database insert failure  
+- Invalid JSON handled gracefully  
+
+---
+
+## 🔮 Future Improvements
+
+- Support CSV files  
+- Add authentication  
+- Add logging system  
+- Add Docker support  
+- Add unit tests  
+
+---
+
+## 👩‍💻 Author
+
+Sneha Hanji  
+FastAPI + LLM Integration Project
