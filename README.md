@@ -59,7 +59,7 @@ DB_PORT=3306
 DB_NAME=your_database_name
 
 API_URL=https://your-llm-api-url
-DVARA_TOKEN=your_api_token
+D_TOKEN=your_api_token
 ```
 
 ---
