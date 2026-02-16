@@ -1,51 +1,30 @@
-# 🤖 LLM-Based Loan Applicant Field Mapping API
+# 🚀 Loan Applicant Field Mapping API (LLM Powered)
 
-A FastAPI backend service that automatically maps **Excel loan applicant data** to a structured database schema using an **LLM (AI) API**.
-
-This system is designed for **fintech / loan processing companies** to ingest field-agent data with different formats and convert it into standardized database fields.
+This project is a **FastAPI backend service** that automatically maps Excel fields to database fields using an LLM API and optionally inserts the mapped data into a MySQL database.
 
 ---
 
-## 🚀 Features
+## 📌 Features
 
-* Upload Excel files via API
-* Detect Excel column names automatically
-* Fetch real database table fields dynamically
-* AI-powered field mapping using LLM API
-* Automatically rename Excel columns
-* Optional insertion into MySQL database
-* Auto table creation if not exists
-* Health check endpoint
-
----
-
-## 🏦 Loan Applicant Data Schema
-
-The system maps data into this standardized structure:
-
-* applicant_id
-* applicant_name
-* phone_number
-* email
-* aadhaar_number
-* pan_number
-* loan_amount
-* loan_purpose
-* employment_type
-* monthly_income
-* loan_status
+✅ Upload Excel files
+✅ Automatically detect column names
+✅ Fetch database schema dynamically
+✅ Use LLM to generate intelligent field mapping
+✅ Rename columns automatically
+✅ Insert mapped data into MySQL
+✅ Preview processed data
+✅ Health check endpoint
 
 ---
 
 ## 🛠️ Tech Stack
 
-* FastAPI
-* Pandas
-* MySQL
-* SQLAlchemy
-* Requests
-* Python-dotenv
-* External LLM API
+* **Backend:** FastAPI
+* **Database:** MySQL
+* **ORM:** SQLAlchemy
+* **Data Processing:** Pandas
+* **LLM Integration:** REST API
+* **Environment Config:** python-dotenv
 
 ---
 
@@ -53,29 +32,61 @@ The system maps data into this standardized structure:
 
 ```
 project/
-│
-├── main.py
-├── requirements.txt
-├── .env
-└── README.md
+│── backend.py
+│── requirements.txt
+│── .env
+│── README.md
 ```
 
 ---
 
-## ⚙️ Environment Variables
+## ⚙️ Environment Variables (.env)
 
-Create a `.env` file:
+Create a `.env` file in your root folder and add the following:
+
+### 🗄️ Database Configuration
 
 ```
-DB_USER=your_mysql_username
-DB_PASSWORD=your_mysql_password
+DB_USER=root
+DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=your_database_name
-
-API_URL=https://your-llm-api-url
-DVARA_TOKEN=your_api_token
+DB_NAME=loan_db
 ```
+
+---
+
+### 🤖 LLM API Configuration
+
+```
+API_URL=https://your-llm-api-endpoint
+DVARA_TOKEN=your_api_token_here
+```
+
+---
+
+## 🗄️ Database Table Schema
+
+The system automatically creates a table called:
+
+### 📌 `loan_applicants`
+
+### Fields:
+
+| Field Name      | Type          | Description           |
+| --------------- | ------------- | --------------------- |
+| applicant_id    | VARCHAR(50)   | Primary key ID        |
+| applicant_name  | VARCHAR(255)  | Applicant full name   |
+| phone_number    | VARCHAR(20)   | Mobile number         |
+| email           | VARCHAR(255)  | Email address         |
+| aadhaar_number  | VARCHAR(20)   | Aadhaar ID            |
+| pan_number      | VARCHAR(20)   | PAN card number       |
+| loan_amount     | DECIMAL(12,2) | Requested loan amount |
+| loan_purpose    | VARCHAR(255)  | Purpose of loan       |
+| employment_type | VARCHAR(100)  | Job type              |
+| monthly_income  | DECIMAL(12,2) | Income                |
+| loan_status     | VARCHAR(50)   | Default = PENDING     |
+| created_at      | TIMESTAMP     | Auto timestamp        |
 
 ---
 
@@ -84,35 +95,13 @@ DVARA_TOKEN=your_api_token
 ### 1️⃣ Clone Repository
 
 ```
-git clone https://github.com/Snehahanji/LLM-field-mapping.git
-cd LLM-field-mapping
+git clone https://github.com/yourusername/loan-mapping-api.git
+cd loan-mapping-api
 ```
 
 ---
 
-### 2️⃣ Create Virtual Environment
-
-```
-python -m venv venv
-```
-
-Activate:
-
-Windows:
-
-```
-venv\Scripts\activate
-```
-
-Mac/Linux:
-
-```
-source venv/bin/activate
-```
-
----
-
-### 3️⃣ Install Dependencies
+### 2️⃣ Install Dependencies
 
 ```
 pip install -r requirements.txt
@@ -120,141 +109,211 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running the Application
+### 3️⃣ Run Server
 
 ```
-uvicorn main:app --reload
+uvicorn backend:app --reload
 ```
 
-App runs at:
+Server URL:
 
 ```
 http://127.0.0.1:8000
-```
-
-Swagger Docs:
-
-```
-http://127.0.0.1:8000/docs
 ```
 
 ---
 
 ## 📡 API Endpoints
 
-### Root Endpoint
+---
 
-```
-GET /
-```
+### 🟢 Upload Excel & Auto Map Fields
 
-Returns API status.
+**POST** `/upload/`
+
+#### Request Parameters
+
+| Parameter    | Type    | Required | Description               |
+| ------------ | ------- | -------- | ------------------------- |
+| file         | File    | Yes      | Excel file                |
+| table_name   | String  | No       | Default = loan_applicants |
+| insert_to_db | Boolean | No       | Insert data into DB       |
 
 ---
 
-### Upload Excel
+### 🟢 Example (Postman)
+
+**POST URL**
 
 ```
-POST /upload/
+http://localhost:8000/upload/
 ```
 
-Query Parameters:
+**Body → form-data**
 
-| Parameter    | Type    | Default         | Description        |
-| ------------ | ------- | --------------- | ------------------ |
-| table_name   | string  | loan_applicants | Target DB table    |
-| insert_to_db | boolean | false           | Insert mapped data |
+```
+file: upload_excel_file.xlsx
+insert_to_db: true
+```
 
 ---
 
-### Health Check
+### 🟢 Health Check
 
-```
-GET /health
-```
+GET `/health`
 
-Checks database connectivity and token status.
+Returns database connection status.
 
 ---
 
-## ⚙️ How It Works
+### 🟢 API Documentation
 
-### Step 1 — Upload Excel
+Swagger UI:
 
-Pandas reads the uploaded file.
-
-### Step 2 — Fetch Database Fields
-
-Table is created automatically if it does not exist.
-
-### Step 3 — Call LLM API
-
-Excel columns and database fields are sent to AI.
-
-### Step 4 — Receive Mapping
-
-LLM returns column-to-field mapping.
-
-### Step 5 — Rename Columns
-
-Excel columns are renamed using AI mapping.
-
-### Step 6 — Optional Database Insert
-
-Mapped data is inserted into MySQL.
+```
+http://localhost:8000/docs
+```
 
 ---
 
-## 📊 Example Mapping
+## 🧠 How The Mapping Works
 
-Input Excel Columns:
+1️⃣ Excel file is uploaded
+2️⃣ Pandas extracts column names
+3️⃣ Database schema fields are fetched
+4️⃣ Both lists are sent to LLM API
+5️⃣ LLM returns JSON mapping
+6️⃣ DataFrame columns renamed automatically
+7️⃣ Data optionally inserted into database
 
-```
-["ID", "Name", "Mobile"]
-```
+---
 
-Database Fields:
+## 📊 Sample API Response (Updated for Loan Applicant Fields)
 
-```
-["applicant_id", "applicant_name", "phone_number"]
-```
-
-LLM Output:
-
-```
+```json
 {
-  "ID": "applicant_id",
-  "Name": "applicant_name",
-  "Mobile": "phone_number"
+  "status": "success",
+  "mapping": {
+    "Customer ID": "applicant_id",
+    "Customer Name": "applicant_name",
+    "Phone Number": "phone_number",
+    "Email ID": "email",
+    "Aadhaar No": "aadhaar_number",
+    "PAN No": "pan_number",
+    "Loan Amount": "loan_amount",
+    "Loan Purpose": "loan_purpose",
+    "Employment Type": "employment_type",
+    "Monthly Income": "monthly_income"
+  },
+  "rows": 50,
+  "rows_inserted": 50,
+  "preview": [
+    {
+      "applicant_id": "CUST101",
+      "applicant_name": "Rahul Sharma",
+      "phone_number": "9876543210",
+      "email": "rahul@gmail.com",
+      "aadhaar_number": "123412341234",
+      "pan_number": "ABCDE1234F",
+      "loan_amount": 250000,
+      "loan_purpose": "Business Expansion",
+      "employment_type": "Self-employed",
+      "monthly_income": 45000
+    }
+  ]
 }
 ```
 
 ---
 
-## ❌ Error Handling
+## 🧪 Testing Options
 
-| Error      | Meaning               |
-| ---------- | --------------------- |
-| 403        | Token expired         |
-| 500        | LLM API failure       |
-| 500        | Database insert error |
-| JSON Error | Invalid API response  |
+You can test using:
+
+* Postman
+* Swagger UI
+* cURL
 
 ---
 
-## 🔮 Future Improvements
+## 📸 RESULTS / OUTPUT SCREENSHOTS
 
-* Support CSV & XML upload
-* Authentication system
-* Logging & monitoring
-* Docker deployment
-* Credit score API integration
-* Loan approval workflow engine
+(Add screenshots after running project)
+
+```
+Paste output screenshots here
+```
+
+---
+
+## 📸 LLM FIELD MAPPING RESULTS
+
+(Add mapping JSON screenshots)
+
+```
+Paste mapping results here
+```
+
+---
+
+## 📸 DATABASE INSERT RESULTS
+
+(Add MySQL table screenshots)
+
+```
+Paste DB screenshots here
+```
+
+---
+
+## 🚨 Common Errors & Fixes
+
+### ❌ Token Expired
+
+Update `.env`:
+
+```
+DVARA_TOKEN=new_token
+```
+
+---
+
+### ❌ Database Connection Failed
+
+Check:
+
+* MySQL running
+* Credentials correct
+* Database exists
+
+---
+
+### ❌ Empty Mapping Returned
+
+Ensure:
+
+* Excel file has headers
+* LLM API is active
+* Token is valid
 
 ---
 
 ## 👩‍💻 Author
 
-**Sneha Hanji**
-LLM + FastAPI Integration Project
+Sneha Hanji
 
+---
+
+## ⭐ Future Improvements
+
+* CSV & XML upload support
+* UI Dashboard
+* Mapping history storage
+* Field validation rules
+* Multi-table mapping
+
+---
+
+## 📜 License
+
+For educational and internal use.
