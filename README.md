@@ -32,7 +32,7 @@ This project is a **FastAPI backend service** that automatically maps Excel fiel
 
 ```
 project/
-│── backend.py
+│── main.py
 │── requirements.txt
 │── .env
 │── README.md
@@ -112,7 +112,7 @@ pip install -r requirements.txt
 ### 3️⃣ Run Server
 
 ```
-uvicorn backend:app --reload
+uvicorn main:app --reload
 ```
 
 Server URL:
