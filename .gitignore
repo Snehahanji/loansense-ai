@@ -2,3 +2,29 @@
 database.py
 venv
 _pycache_
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+env/
+
+# Streamlit
+.streamlit/
+
+# Data files
+*.xlsx
+*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

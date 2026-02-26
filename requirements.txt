@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+streamlit>=1.32.0
+pandas
+openpyxl
+sqlalchemy
+pymysql
+python-dotenv
+requests
