@@ -99,8 +99,8 @@ loansense-ai/
 | **Frontend** | Streamlit + Custom CSS (Dark Fintech Theme) |
 | **Backend** | FastAPI |
 | **Database** | MySQL via SQLAlchemy |
-| **LLM 1** | Dvara Gateway — Field Mapping |
-| **LLM 2** | Dvara Gateway → Langfuse → Gemini 2.5 Flash |
+| **LLM 1** |Field Mapping |
+| **LLM 2** |Gateway → Langfuse → Gemini 2.5 Flash |
 | **Prompt Mgmt** | Langfuse (prompt versioning + config) |
 | **Fonts** | DM Serif Display · Sora · DM Mono |
 
